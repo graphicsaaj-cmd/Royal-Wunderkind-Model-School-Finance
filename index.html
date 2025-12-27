@@ -1,102 +1,1664 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Royal Wunderkind Model School – Financial Tools</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<title>Royal Wunderkind Model School – Financial Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --purple: #8a168a;
+  --light-purple: #d38ad3;
+  --border: #8a168a;
+  --text: #222;
+  --error: #d32f2f;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #f7f7f7;
+  color: var(--text);
+}
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+h1, h2, h3, .section-title {
+  text-align: center;
+  margin: 6px 0;
+}
+.school-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 4px solid var(--purple);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.school-logo {
+  width: 80px;
+  height: 80px;
+  border: 1px dashed #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+.school-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.signature-upload {
+  width: 100%;
+  height: 120px;
+  border: 1px dashed #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  background: #f9f9f9;
+  position: relative;
+}
+.signature-upload img {
+  max-width: 90%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.clear-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.school-logo:hover .clear-icon,
+.signature-upload:hover .clear-icon {
+  opacity: 1;
+}
+.school-info {
+  flex: 1;
+  text-align: center;
+}
+.school-header h1 {
+  color: var(--purple);
+  font-size: 22px;
+  margin: 0;
+}
+.school-header p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+.contact-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.contact-line i {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+label {
+  font-size: 13px;
+  font-weight: bold;
+  display: block;
+}
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input.invalid, select.invalid {
+  border-color: var(--error);
+}
+.error-msg {
+  color: var(--error);
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 16px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  font-size: 13px;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px;
+  text-align: center;
+  word-wrap: break-word;
+}
+th {
+  background: var(--purple);
+  color: #fff;
+  font-size: 12px;
+}
+td input, td select {
+  border: none;
+  text-align: center;
+  width: 100%;
+}
+.section-title {
+  background: var(--purple);
+  color: #fff;
+  padding: 8px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+.total-box {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 10px;
+}
+.footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 30px;
+  gap: 40px;
+}
+@media (min-width: 768px) {
+  .footer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.footer div {
+  border-top: 1px solid #000;
+  text-align: center;
+  padding-top: 6px;
+  font-size: 13px;
+}
+.table-wrapper {
+  overflow-x: auto;
+}
+button.small-btn, button.print-btn, button.save-btn, button.load-btn, button.login-btn, button.export-btn {
+  padding: 8px 16px;
+  margin: 5px 0;
+  font-size: 14px;
+  cursor: pointer;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+button.print-btn {
+  background: #28a745;
+}
+button.save-btn {
+  background: #007bff;
+}
+button.load-btn {
+  background: #6c757d;
+}
+button.login-btn {
+  background: #ff6a00;
+}
+button.export-btn {
+  background: #28a745;
+}
+button.staff-btn {
+  background: #e57373;
+}
+button.invoice-btn {
+  background: #81c784;
+}
+button.expense-btn {
+  background: #ffb74d;
+}
+#loginModal, #adminPanel, #requestResetModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.modal-content h2 {
+  margin-top: 0;
+  text-align: center;
+}
+.modal-content input {
+  margin-bottom: 10px;
+}
+.modal-content .error-msg {
+  margin-bottom: 10px;
+}
+.user-info {
+  text-align: right;
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #555;
+}
+#adminUserList, #adminResetRequests {
+  width: 100%;
+  margin-top: 10px;
+}
+#adminUserList th, #adminUserList td,
+#adminResetRequests th, #adminResetRequests td {
+  text-align: left;
+  padding: 6px;
+}
+.forgot-link {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.forgot-link a {
+  color: var(--purple);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+}
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body, .container { background: white; margin: 0; padding: 12mm; }
+  .controls, .small-btn, .print-btn, .user-info, #loginBtn, #logoutBtn, .error-msg, #addEntryBtn { display: none !important; }
+  .school-logo { width: 90px; height: 90px; }
+  .info-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 10pt; }
+  table { font-size: 9pt; }
+  th, td { padding: 4px; }
+  .section-title { padding: 4px; font-size: 10pt; }
+  .footer { grid-template-columns: 1fr 1fr; }
+  .signature-upload { height: 60px; }
+  input, select { border: none !important; background: transparent !important; font-size: 10pt !important; }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent !important;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  #receiptTable th:last-child, #receiptTable td:last-child,
+  #paycheckTable th:last-child, #paycheckTable td:last-child,
+  #invoiceTable th:last-child, #invoiceTable td:last-child,
+  #expenseTable th:last-child, #expenseTable td:last-child {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .school-header { flex-direction: column; text-align: center; }
+  .controls { flex-direction: column; }
+  button { width: 100%; }
+}
+#loginOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- All your HTML body content unchanged -->
-  <div id="loginOverlay">
-    <div>
-      <h2>Please Login to Use the Application</h2>
-      <button onclick="openLoginModal()" style="padding:15px 30px; font-size:18px; background:#ff6a00; color:white; border:none; border-radius:8px; cursor:pointer;">Login Now</button>
+<div id="loginOverlay">
+  <div>
+    <h2>Please Login to Use the Application</h2>
+    <button onclick="openLoginModal()" style="padding:15px 30px; font-size:18px; background:#ff6a00; color:white; border:none; border-radius:8px; cursor:pointer;">Login Now</button>
+  </div>
+</div>
+<div id="loginModal">
+  <div class="modal-content">
+    <h2>User Login</h2>
+    <label>Username</label>
+    <input type="text" id="loginUsername" placeholder="Enter username">
+    <div class="error-msg" id="loginUsernameError"></div>
+    <label>Password</label>
+    <input type="password" id="loginPassword" placeholder="Enter password">
+    <div class="error-msg" id="loginPasswordError"></div>
+    <div style="display:flex; gap:10px; margin-top:15px;">
+      <button onclick="performLogin()" class="login-btn" style="flex:1;">Login</button>
+      <button onclick="closeLoginModal()" style="flex:1; background:#999;">Cancel</button>
+    </div>
+    <div class="forgot-link"><a onclick="openRequestResetModal()">Request Password Reset</a></div>
+  </div>
+</div>
+<div id="requestResetModal">
+  <div class="modal-content">
+    <h2>Request Password Reset</h2>
+    <p>Enter your username to request a password reset. The admin will approve and reset it.</p>
+    <label>Username</label>
+    <input type="text" id="requestUsername" placeholder="Enter username">
+    <div class="error-msg" id="requestUsernameError"></div>
+    <div style="display:flex; gap:10px; margin-top:15px;">
+      <button onclick="requestReset()" class="login-btn" style="flex:1;">Request</button>
+      <button onclick="closeRequestResetModal()" style="flex:1; background:#999;">Cancel</button>
     </div>
   </div>
-
-  <!-- Login Modal -->
-  <div id="loginModal"> ... </div>
-  <div id="requestResetModal"> ... </div>
-  <div id="adminPanel"> ... </div>
-
-  <div class="container">
-    <!-- School header, controls, sections, etc. -->
-    <!-- (Exact same HTML as in your original <body>) -->
-    <div class="school-header">
-      <div class="school-logo" onclick="checkLogin(() => document.getElementById('logoInput').click())">
-        <span class="clear-icon" onclick="checkLogin(() => clearLogo(event))" title="Remove Logo">×</span>
-      </div>
-      <input type="file" id="logoInput" style="display:none" accept="image/*" onchange="previewLogo(event)">
-      <div class="school-info">
-        <h1 contenteditable="true" id="schoolName">ROYAL WUNDERKIND MODEL SCHOOL</h1>
-        <p contenteditable="true" id="schoolMotto">Partnering with Christ for a better world</p>
-        <div class="contact-line"><i class="fas fa-map-marker-alt"></i> <span contenteditable="true" id="schoolAddress">Beside Solar House, Close to colony 3 Hostel, Jalala GRA, Tanke Oke-odo, Ilorin, Kwara state.</span></div>
-        <div class="contact-line"><i class="fas fa-phone"></i> <span contenteditable="true" id="schoolPhone">08142856970, 09012521178</span></div>
-        <div class="contact-line"><i class="fas fa-envelope"></i> <span contenteditable="true" id="schoolEmail">royalwunderkindmodelschool@gmail.com</span></div>
-        <div class="contact-line"><i class="fas fa-globe"></i> <span contenteditable="true" id="schoolWebsite">www.royalwunderkindmodelschools.com</span></div>
-      </div>
+</div>
+<div id="adminPanel">
+  <div class="modal-content">
+    <h2>Admin Dashboard</h2>
+    <p><strong>Total Receipts Issued:</strong> <span id="totalReceipts">0</span></p>
+    <h3>User Activity Log</h3>
+    <table id="adminUserList">
+      <thead><tr><th>Full Name</th><th>Username</th><th>Login Count</th><th>Last Login</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Pending Password Reset Requests</h3>
+    <table id="adminResetRequests">
+      <thead><tr><th>Username</th><th>Action</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <button onclick="closeAdminPanel()" style="width:100%; margin-top:15px; background:#999;">Close Dashboard</button>
+  </div>
+</div>
+<div class="container">
+  <div class="school-header">
+    <div class="school-logo" onclick="checkLogin(() => document.getElementById('logoInput').click())">
+      <span class="clear-icon" onclick="checkLogin(() => clearLogo(event))" title="Remove Logo">×</span>
     </div>
-
-    <div class="user-info">
-      Logged in as: <strong id="currentUser">Guest</strong>
-      <button id="loginBtn" onclick="openLoginModal()" class="small-btn">Login</button>
-      <button id="logoutBtn" onclick="logout()" style="display:none;" class="small-btn">Logout</button>
-      <button id="adminViewBtn" onclick="openAdminPanel()" style="display:none;" class="small-btn">Admin Dashboard</button>
+    <input type="file" id="logoInput" style="display:none" accept="image/*" onchange="previewLogo(event)">
+    <div class="school-info">
+      <h1 contenteditable="true" id="schoolName">ROYAL WUNDERKIND MODEL SCHOOL</h1>
+      <p contenteditable="true" id="schoolMotto">Partnering with Christ for a better world</p>
+      <div class="contact-line"><i class="fas fa-map-marker-alt"></i> <span contenteditable="true" id="schoolAddress">Beside Solar House, Close to colony 3 Hostel, Jalala GRA, Tanke Oke-odo, Ilorin, Kwara state.</span></div>
+      <div class="contact-line"><i class="fas fa-phone"></i> <span contenteditable="true" id="schoolPhone">08142856970, 09012521178</span></div>
+      <div class="contact-line"><i class="fas fa-envelope"></i> <span contenteditable="true" id="schoolEmail">royalwunderkindmodelschool@gmail.com</span></div>
+      <div class="contact-line"><i class="fas fa-globe"></i> <span contenteditable="true" id="schoolWebsite">www.royalwunderkindmodelschools.com</span></div>
     </div>
-
+  </div>
+  <div class="user-info">
+    Logged in as: <strong id="currentUser">Guest</strong>
+    <button id="loginBtn" onclick="openLoginModal()" class="small-btn">Login</button>
+    <button id="logoutBtn" onclick="logout()" style="display:none;" class="small-btn">Logout</button>
+    <button id="adminViewBtn" onclick="openAdminPanel()" style="display:none;" class="small-btn">Admin Dashboard</button>
+  </div>
+  <div class="controls">
+    <button onclick="showSection('receiptSection')" class="small-btn">School Fees Receipt</button>
+    <button onclick="showSection('paycheckSection')" class="staff-btn">Staff Paycheck</button>
+    <button onclick="showSection('invoiceSection')" class="invoice-btn">Invoice Entries</button>
+    <button onclick="showSection('expenseSection')" class="expense-btn">Expense Tracking</button>
+    <button onclick="window.print()" class="print-btn">Print</button>
+  </div>
+  <!-- Receipt Section -->
+  <div id="receiptSection" class="section active">
+    <div class="info-grid">
+      <div><label>Student Name<input id="receiptName" disabled></label><div class="error-msg" id="receiptNameError"></div></div>
+      <div><label>Class<input id="receiptClass" disabled></label><div class="error-msg" id="receiptClassError"></div></div>
+      <div><label>Term<select id="receiptTerm" disabled><option>1st Term</option><option>2nd Term</option><option>3rd Term</option></select></label></div>
+      <div><label>Session<input id="receiptSession" disabled></label><div class="error-msg" id="receiptSessionError"></div></div>
+      <div><label>Date<input type="date" id="receiptDate" disabled></label><div class="error-msg" id="receiptDateError"></div></div>
+      <div><label>Receipt ID<input id="receiptID" placeholder="e.g. REC001"></label><div class="error-msg" id="receiptIDError"></div></div>
+    </div>
     <div class="controls">
-      <button onclick="showSection('receiptSection')" class="small-btn">School Fees Receipt</button>
-      <button onclick="showSection('paycheckSection')" class="staff-btn">Staff Paycheck</button>
-      <button onclick="showSection('invoiceSection')" class="invoice-btn">Invoice Entries</button>
-      <button onclick="showSection('expenseSection')" class="expense-btn">Expense Tracking</button>
-      <button onclick="window.print()" class="print-btn">Print</button>
+      <button onclick="checkLogin(saveReceiptAndNew)" class="save-btn">Save & New</button>
+      <button onclick="checkLogin(loadReceipt)" class="load-btn">Load Receipt</button>
+      <button onclick="exportReceiptToExcel()" class="export-btn">Export to Excel</button>
     </div>
-
-    <!-- All four sections: receipt, paycheck, invoice, expense (unchanged) -->
-    <!-- ... (your original section HTML) ... -->
-
+    <div class="table-wrapper">
+      <table id="receiptTable">
+        <thead><tr><th>Description</th><th>Amount (₦)</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button onclick="checkLogin(addReceiptRow)" class="small-btn" id="addEntryBtn" disabled>Add Entry</button>
+    <div class="error-msg" id="itemsError"></div>
+    <div class="total-box">TOTAL: ₦ <input id="totalReceipt" readonly style="width:150px; text-align:right; font-weight:bold;"></div>
+    <div class="footer">
+      <div><strong>Finance Officer</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('financeInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'financeInput'))" title="Remove Signature">×</span>
+        </div>
+        <input type="file" id="financeInput" style="display:none" accept="image/*" onchange="previewSignature(event, this)" disabled>
+      </div>
+      <div><strong>School Stamp</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('stampInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'stampInput'))" title="Remove Stamp">×</span>
+        </div>
+        <input type="file" id="stampInput" style="display:none" accept="image/*" onchange="previewSignature(event, this)" disabled>
+      </div>
+    </div>
   </div>
+  <!-- Paycheck Section -->
+  <div id="paycheckSection" class="section">
+    <h2 class="section-title">Staff Paycheck</h2>
+    <button onclick="showSection('receiptSection')" class="small-btn" style="margin-bottom:15px;">← Back to Receipts</button>
+    <div class="controls">
+      <input type="text" id="paycheckID" placeholder="Paycheck ID (e.g. PAY001)" style="width:200px;">
+      <div class="error-msg" id="paycheckIDError"></div>
+      <button onclick="checkLogin(savePaycheck)" class="save-btn">Save & New</button>
+      <button onclick="checkLogin(loadPaycheck)" class="load-btn">Load Paycheck</button>
+      <button onclick="exportPaycheckToExcel()" class="export-btn">Export to Excel</button>
+    </div>
+    <div class="info-grid">
+      <div><label>Staff Name<input id="paycheckName" disabled></label><div class="error-msg" id="paycheckNameError"></div></div>
+      <div><label>Staff ID<input id="paycheckStaffID" disabled></label><div class="error-msg" id="paycheckStaffIDError"></div></div>
+      <div><label>Month<select id="paycheckMonth" disabled>
+        <option>January</option><option>February</option><option>March</option><option>April</option>
+        <option>May</option><option>June</option><option>July</option><option>August</option>
+        <option>September</option><option>October</option><option>November</option><option>December</option>
+      </select></label></div>
+      <div><label>Year<input id="paycheckYear" disabled placeholder="e.g. 2025"></label><div class="error-msg" id="paycheckYearError"></div></div>
+      <div><label>Pay Date<input type="date" id="paycheckDate" disabled></label><div class="error-msg" id="paycheckDateError"></div></div>
+    </div>
+    <div class="table-wrapper">
+      <table id="paycheckTable">
+        <thead><tr><th>Description</th><th>Amount (₦)</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button onclick="checkLogin(addPaycheckRow)" class="small-btn" id="addPaycheckEntryBtn" disabled>Add Item</button>
+    <div class="error-msg" id="paycheckItemsError"></div>
+    <div class="total-box">NET PAY: ₦ <input id="totalPaycheck" readonly style="width:150px; text-align:right; font-weight:bold;"></div>
+    <div class="footer">
+      <div><strong>Finance Officer</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('financeInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'financeInput'))" title="Remove Signature">×</span>
+        </div>
+      </div>
+      <div><strong>School Stamp</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('stampInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'stampInput'))" title="Remove Stamp">×</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Invoice Section -->
+  <div id="invoiceSection" class="section">
+    <h2 class="section-title">Invoice Entries</h2>
+    <button onclick="showSection('receiptSection')" class="small-btn" style="margin-bottom:15px;">← Back to Receipts</button>
+    <div class="controls">
+      <input type="text" id="invoiceNo" placeholder="Invoice No (e.g. INV001)" style="width:200px;">
+      <div class="error-msg" id="invoiceNoError"></div>
+      <button onclick="checkLogin(saveInvoice)" class="save-btn">Save & New</button>
+      <button onclick="checkLogin(loadInvoice)" class="load-btn">Load Invoice</button>
+      <button onclick="exportInvoiceToExcel()" class="export-btn">Export to Excel</button>
+    </div>
+    <div class="info-grid">
+      <div><label>Invoice To (Name/Company)<input id="invoiceTo" disabled></label><div class="error-msg" id="invoiceToError"></div></div>
+      <div><label>Address (Optional)<input id="invoiceAddress" disabled></label></div>
+      <div><label>Invoice Date<input type="date" id="invoiceDate" disabled></label><div class="error-msg" id="invoiceDateError"></div></div>
+      <div><label>Due Date<input type="date" id="invoiceDue" disabled></label><div class="error-msg" id="invoiceDueError"></div></div>
+    </div>
+    <div class="table-wrapper">
+      <table id="invoiceTable">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit Price (₦)</th>
+            <th>Total (₦)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button onclick="checkLogin(addInvoiceRow)" class="small-btn" id="addInvoiceEntryBtn" disabled>Add Item</button>
+    <div class="error-msg" id="invoiceItemsError"></div>
+    <div class="total-box">TOTAL AMOUNT: ₦ <input id="totalInvoice" readonly style="width:180px; text-align:right; font-weight:bold;"></div>
+    <div class="footer">
+      <div><strong>Prepared By</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('financeInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'financeInput'))" title="Remove Signature">×</span>
+        </div>
+      </div>
+      <div><strong>School Stamp</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('stampInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'stampInput'))" title="Remove Stamp">×</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Expense Section -->
+  <div id="expenseSection" class="section">
+    <h2 class="section-title">Expense Tracking</h2>
+    <button onclick="showSection('receiptSection')" class="small-btn" style="margin-bottom:15px;">← Back to Receipts</button>
+    <div class="controls">
+      <input type="text" id="expenseID" placeholder="Expense ID (e.g. EXP001)" style="width:200px;">
+      <div class="error-msg" id="expenseIDError"></div>
+      <button onclick="checkLogin(saveExpense)" class="save-btn">Save & New</button>
+      <button onclick="checkLogin(loadExpense)" class="load-btn">Load Expense</button>
+      <button onclick="exportExpenseToExcel()" class="export-btn">Export to Excel</button>
+    </div>
+    <div class="info-grid">
+      <div><label>Expense Date<input type="date" id="expenseDate" disabled></label><div class="error-msg" id="expenseDateError"></div></div>
+      <div><label>Category<select id="expenseCategory" disabled>
+        <option>Supplies</option><option>Utilities</option><option>Maintenance</option><option>Salaries</option><option>Other</option>
+      </select></label></div>
+      <div><label>Paid To<input id="expensePaidTo" disabled></label><div class="error-msg" id="expensePaidToError"></div></div>
+      <div><label>Notes<input id="expenseNotes" disabled></label></div>
+    </div>
+    <div class="table-wrapper">
+      <table id="expenseTable">
+        <thead><tr><th>Description</th><th>Amount (₦)</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button onclick="checkLogin(addExpenseRow)" class="small-btn" id="addExpenseEntryBtn" disabled>Add Item</button>
+    <div class="error-msg" id="expenseItemsError"></div>
+    <div class="total-box">TOTAL EXPENSE: ₦ <input id="totalExpense" readonly style="width:150px; text-align:right; font-weight:bold;"></div>
+    <div class="footer">
+      <div><strong>Finance Officer</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('financeInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'financeInput'))" title="Remove Signature">×</span>
+        </div>
+      </div>
+      <div><strong>School Stamp</strong>
+        <div class="signature-upload" onclick="checkLogin(() => document.getElementById('stampInput').click())">
+          <span class="clear-icon" onclick="checkLogin(() => clearSignature(event, 'stampInput'))" title="Remove Stamp">×</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const STORAGE_KEY_LOGO = 'schoolLogo';
+const STORAGE_KEY_SIG_FINANCE = 'sigFinance';
+const STORAGE_KEY_SIG_STAMP = 'sigStamp';
+const STORAGE_KEY_SCHOOL_INFO = 'schoolHeaderInfo';
+const STORAGE_KEY_USERS = 'receiptAppUsers';
+const STORAGE_KEY_CURRENT_USER = 'currentReceiptUser';
+const STORAGE_KEY_TEMP_RECEIPT = 'tempReceipt';
+const STORAGE_KEY_TEMP_PAYCHECK = 'tempPaycheck';
+const STORAGE_KEY_TEMP_INVOICE = 'tempInvoice';
+const STORAGE_KEY_TEMP_EXPENSE = 'tempExpense';
+const STORAGE_KEY_RESET_REQUESTS = 'resetRequests';
+const IDLE_TIMEOUT = 5 * 60 * 1000;
+let currentUser = null;
+let idleTimer = null;
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script>
-    // === Your entire JavaScript code goes here (unchanged) ===
-    // (Paste everything from <script> ... </script> in your original file)
-    // Including constants, functions, event listeners, onload, etc.
+/* ------------------- Excel Export Functions ------------------- */
+function exportReceiptToExcel() {
+  const wb = XLSX.utils.book_new();
+  const data = [];
 
-    // For brevity, only the start is shown – copy the full script from your original code
-    const STORAGE_KEY_LOGO = 'schoolLogo';
-    const STORAGE_KEY_SIG_FINANCE = 'sigFinance';
-    const STORAGE_KEY_SIG_STAMP = 'sigStamp';
-    // ... (all the rest of your JS exactly as provided)
+  // Header info
+  data.push(["School:", document.getElementById("schoolName").textContent]);
+  data.push(["Receipt ID:", document.getElementById("receiptID").value]);
+  data.push(["Student Name:", document.getElementById("receiptName").value]);
+  data.push(["Class:", document.getElementById("receiptClass").value]);
+  data.push(["Term:", document.getElementById("receiptTerm").value]);
+  data.push(["Session:", document.getElementById("receiptSession").value]);
+  data.push(["Date:", document.getElementById("receiptDate").value]);
+  data.push([]); // blank row
 
-    window.onload = function() {
-      loadImages();
-      addReceiptRowInternal('', '0');
-      updateTotal();
-      addPaycheckRowInternal('', '0');
-      addInvoiceRowInternal();
-      addExpenseRowInternal('', '0');
-      const savedUser = localStorage.getItem(STORAGE_KEY_CURRENT_USER);
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        loadTempReceipt();
-        resetIdleTimer();
-        document.addEventListener('mousemove', resetIdleTimer);
-        document.addEventListener('keydown', resetIdleTimer);
-        document.addEventListener('touchstart', resetIdleTimer);
-        document.getElementById('loginOverlay').style.display = 'none';
-      }
-      updateUIAfterLogin();
+  // Table headers
+  data.push(["Description", "Amount (₦)"]);
+
+  // Table rows
+  document.querySelectorAll("#receiptTable tbody tr").forEach(row => {
+    const desc = row.querySelectorAll("input")[0].value;
+    const amt = row.querySelectorAll("input")[1].value;
+    data.push([desc, amt]);
+  });
+
+  data.push([]);
+  data.push(["TOTAL", document.getElementById("totalReceipt").value]);
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Receipt");
+  XLSX.writeFile(wb, `Receipt_${document.getElementById("receiptID").value || "Untitled"}.xlsx`);
+}
+
+function exportPaycheckToExcel() {
+  const wb = XLSX.utils.book_new();
+  const data = [];
+
+  data.push(["School:", document.getElementById("schoolName").textContent]);
+  data.push(["Paycheck ID:", document.getElementById("paycheckID").value]);
+  data.push(["Staff Name:", document.getElementById("paycheckName").value]);
+  data.push(["Staff ID:", document.getElementById("paycheckStaffID").value]);
+  data.push(["Month:", document.getElementById("paycheckMonth").value]);
+  data.push(["Year:", document.getElementById("paycheckYear").value]);
+  data.push(["Pay Date:", document.getElementById("paycheckDate").value]);
+  data.push([]);
+
+  data.push(["Description", "Amount (₦)"]);
+  document.querySelectorAll("#paycheckTable tbody tr").forEach(row => {
+    const desc = row.querySelectorAll("input")[0].value;
+    const amt = row.querySelectorAll("input")[1].value;
+    data.push([desc, amt]);
+  });
+
+  data.push([]);
+  data.push(["NET PAY", document.getElementById("totalPaycheck").value]);
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Paycheck");
+  XLSX.writeFile(wb, `Paycheck_${document.getElementById("paycheckID").value || "Untitled"}.xlsx`);
+}
+
+function exportInvoiceToExcel() {
+  const wb = XLSX.utils.book_new();
+  const data = [];
+
+  data.push(["School:", document.getElementById("schoolName").textContent]);
+  data.push(["Invoice No:", document.getElementById("invoiceNo").value]);
+  data.push(["Invoice To:", document.getElementById("invoiceTo").value]);
+  data.push(["Address:", document.getElementById("invoiceAddress").value]);
+  data.push(["Invoice Date:", document.getElementById("invoiceDate").value]);
+  data.push(["Due Date:", document.getElementById("invoiceDue").value]);
+  data.push([]);
+
+  data.push(["Description", "Qty", "Unit Price (₦)", "Total (₦)"]);
+  document.querySelectorAll("#invoiceTable tbody tr").forEach(row => {
+    const inputs = row.querySelectorAll("input");
+    data.push([inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value]);
+  });
+
+  data.push([]);
+  data.push(["TOTAL AMOUNT", "", "", document.getElementById("totalInvoice").value]);
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Invoice");
+  XLSX.writeFile(wb, `Invoice_${document.getElementById("invoiceNo").value || "Untitled"}.xlsx`);
+}
+
+function exportExpenseToExcel() {
+  const wb = XLSX.utils.book_new();
+  const data = [];
+
+  data.push(["School:", document.getElementById("schoolName").textContent]);
+  data.push(["Expense ID:", document.getElementById("expenseID").value]);
+  data.push(["Expense Date:", document.getElementById("expenseDate").value]);
+  data.push(["Category:", document.getElementById("expenseCategory").value]);
+  data.push(["Paid To:", document.getElementById("expensePaidTo").value]);
+  data.push(["Notes:", document.getElementById("expenseNotes").value]);
+  data.push([]);
+
+  data.push(["Description", "Amount (₦)"]);
+  document.querySelectorAll("#expenseTable tbody tr").forEach(row => {
+    const desc = row.querySelectorAll("input")[0].value;
+    const amt = row.querySelectorAll("input")[1].value;
+    data.push([desc, amt]);
+  });
+
+  data.push([]);
+  data.push(["TOTAL EXPENSE", document.getElementById("totalExpense").value]);
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Expense");
+  XLSX.writeFile(wb, `Expense_${document.getElementById("expenseID").value || "Untitled"}.xlsx`);
+}
+
+/* ------------------- Rest of the original script (unchanged except minor additions) ------------------- */
+async function sha256(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+const DEFAULT_USERS = {
+  "admin": {
+    passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9", // admin123
+    fullName: "Administrator",
+    isAdmin: true,
+    loginCount: 0,
+    lastLogin: null
+  },
+  "john": {
+    passwordHash: "eca350ff4235b3285cc72490c15e1f22bdef2ccd4f3d59d79e36f87bc1fce999", // john2025
+    fullName: "John Doe",
+    isAdmin: false,
+    loginCount: 0,
+    lastLogin: null
+  },
+  "mary": {
+    passwordHash: "bae9ad92596e43ba2a27f54947605574061b482b9e2fb6247064aebbe0356459", // mary2025
+    fullName: "Mary Smith",
+    isAdmin: false,
+    loginCount: 0,
+    lastLogin: null
+  }
+};
+// ... (all the rest of the original JavaScript remains exactly the same as provided)
+function getUsers() {
+  let users = localStorage.getItem(STORAGE_KEY_USERS);
+  if (!users) {
+    localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(DEFAULT_USERS));
+    return DEFAULT_USERS;
+  }
+  return JSON.parse(users);
+}
+function saveUsers(users) {
+  localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(users));
+}
+function getResetRequests() {
+  const requests = localStorage.getItem(STORAGE_KEY_RESET_REQUESTS);
+  return requests ? JSON.parse(requests) : [];
+}
+function saveResetRequests(requests) {
+  localStorage.setItem(STORAGE_KEY_RESET_REQUESTS, JSON.stringify(requests));
+}
+function clearErrors(prefix = '') {
+  document.querySelectorAll(`.error-msg${prefix ? `[id^="${prefix}"]` : ''}`).forEach(el => el.textContent = '');
+  document.querySelectorAll('input, select').forEach(el => el.classList.remove('invalid'));
+}
+function validateField(fieldId, errorId, condition, message) {
+  const field = document.getElementById(fieldId);
+  const error = document.getElementById(errorId);
+  if (condition(field.value.trim())) {
+    field.classList.remove('invalid');
+    error.textContent = '';
+    return true;
+  } else {
+    field.classList.add('invalid');
+    error.textContent = message;
+    return false;
+  }
+}
+function checkLogin(action) {
+  if (!currentUser) {
+    alert("You must be logged in to perform this action.");
+    openLoginModal();
+    return;
+  }
+  if (typeof action === 'function') action();
+}
+function openLoginModal() {
+  clearErrors('login');
+  document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLoginModal() {
+  clearErrors('login');
+  document.getElementById('loginModal').style.display = 'none';
+}
+async function performLogin() {
+  clearErrors('login');
+  let valid = true;
+  valid &= validateField('loginUsername', 'loginUsernameError', v => v.length > 0, 'Username is required');
+  valid &= validateField('loginPassword', 'loginPasswordError', v => v.length > 0, 'Password is required');
+  if (!valid) return;
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const users = getUsers();
+  const hash = await sha256(password);
+  if (users[username] && users[username].passwordHash === hash) {
+    users[username].loginCount = (users[username].loginCount || 0) + 1;
+    users[username].lastLogin = new Date().toISOString();
+    saveUsers(users);
+    currentUser = {
+      username: username,
+      name: users[username].fullName,
+      isAdmin: users[username].isAdmin
     };
-
-    // All input event listeners at the bottom
-    document.querySelectorAll('#receiptID, #receiptName, #receiptClass, #receiptTerm, #receiptSession, #receiptDate').forEach(el => {
-      el.addEventListener('input', saveTempReceipt);
+    localStorage.setItem(STORAGE_KEY_CURRENT_USER, JSON.stringify(currentUser));
+    updateUIAfterLogin();
+    loadTempReceipt();
+    resetIdleTimer();
+    document.addEventListener('mousemove', resetIdleTimer);
+    document.addEventListener('keydown', resetIdleTimer);
+    document.addEventListener('touchstart', resetIdleTimer);
+    closeLoginModal();
+    document.getElementById('loginOverlay').style.display = 'none';
+    alert(`Welcome, ${currentUser.name}!`);
+  } else {
+    document.getElementById('loginPasswordError').textContent = 'Invalid username or password';
+    document.getElementById('loginUsername').classList.add('invalid');
+    document.getElementById('loginPassword').classList.add('invalid');
+  }
+}
+function openRequestResetModal() {
+  clearErrors('request');
+  closeLoginModal();
+  document.getElementById('requestResetModal').style.display = 'flex';
+}
+function closeRequestResetModal() {
+  clearErrors('request');
+  document.getElementById('requestResetModal').style.display = 'none';
+}
+function requestReset() {
+  clearErrors('request');
+  if (!validateField('requestUsername', 'requestUsernameError', v => v.length > 0, 'Username is required')) return;
+  const username = document.getElementById('requestUsername').value.trim();
+  const users = getUsers();
+  if (!users[username]) {
+    document.getElementById('requestUsernameError').textContent = 'Username not found';
+    document.getElementById('requestUsername').classList.add('invalid');
+    return;
+  }
+  let requests = getResetRequests();
+  if (!requests.includes(username)) {
+    requests.push(username);
+    saveResetRequests(requests);
+  }
+  alert('Password reset requested. Please contact the admin.');
+  closeRequestResetModal();
+  openLoginModal();
+}
+function approveReset(username) {
+  const newPass = prompt(`Enter new password for ${username}:`);
+  if (!newPass || newPass.length < 6) {
+    alert("Password must be at least 6 characters");
+    return;
+  }
+  const confirmPass = prompt("Confirm new password:");
+  if (newPass !== confirmPass) {
+    alert("Passwords do not match");
+    return;
+  }
+  sha256(newPass).then(hash => {
+    const users = getUsers();
+    users[username].passwordHash = hash;
+    saveUsers(users);
+    let requests = getResetRequests();
+    requests = requests.filter(u => u !== username);
+    saveResetRequests(requests);
+    alert(`Password for ${username} reset successfully.`);
+    openAdminPanel();
+  });
+}
+function logout() {
+  if (currentUser) saveTempReceipt();
+  currentUser = null;
+  localStorage.removeItem(STORAGE_KEY_CURRENT_USER);
+  disableEditMode();
+  updateUIAfterLogin();
+  clearTimeout(idleTimer);
+  document.removeEventListener('mousemove', resetIdleTimer);
+  document.removeEventListener('keydown', resetIdleTimer);
+  document.removeEventListener('touchstart', resetIdleTimer);
+  document.getElementById('loginOverlay').style.display = 'flex';
+  alert("Logged out successfully");
+}
+function updateUIAfterLogin() {
+  if (currentUser) {
+    document.getElementById('currentUser').textContent = currentUser.name;
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'inline-block';
+    document.getElementById('adminViewBtn').style.display = currentUser.isAdmin ? 'inline-block' : 'none';
+    enableEditMode();
+    document.getElementById('loginOverlay').style.display = 'none';
+  } else {
+    document.getElementById('currentUser').textContent = 'Guest';
+    document.getElementById('loginBtn').style.display = 'inline-block';
+    document.getElementById('logoutBtn').style.display = 'none';
+    document.getElementById('adminViewBtn').style.display = 'none';
+    disableEditMode();
+    document.getElementById('loginOverlay').style.display = 'flex';
+  }
+}
+function enableEditMode() {
+  document.querySelectorAll(
+    '#receiptName, #receiptClass, #receiptTerm, #receiptSession, #receiptDate, #addEntryBtn, ' +
+    '#financeInput, #stampInput, ' +
+    '#paycheckName, #paycheckStaffID, #paycheckMonth, #paycheckYear, #paycheckDate, #addPaycheckEntryBtn, ' +
+    '#invoiceTo, #invoiceAddress, #invoiceDate, #invoiceDue, #addInvoiceEntryBtn, ' +
+    '#expenseDate, #expenseCategory, #expensePaidTo, #expenseNotes, #addExpenseEntryBtn'
+  ).forEach(el => el.disabled = false);
+}
+function disableEditMode() {
+  document.querySelectorAll(
+    '#receiptName, #receiptClass, #receiptTerm, #receiptSession, #receiptDate, #addEntryBtn, ' +
+    '#financeInput, #stampInput, ' +
+    '#paycheckName, #paycheckStaffID, #paycheckMonth, #paycheckYear, #paycheckDate, #addPaycheckEntryBtn, ' +
+    '#invoiceTo, #invoiceAddress, #invoiceDate, #invoiceDue, #addInvoiceEntryBtn, ' +
+    '#expenseDate, #expenseCategory, #expensePaidTo, #expenseNotes, #addExpenseEntryBtn'
+  ).forEach(el => el.disabled = true);
+}
+function resetIdleTimer() {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(autoLogout, IDLE_TIMEOUT);
+}
+function autoLogout() {
+  if (currentUser) {
+    saveTempReceipt();
+    logout();
+    alert("Logged out due to 5 minutes of inactivity. Your work was auto-saved.");
+  }
+}
+function openAdminPanel() {
+  if (!currentUser || !currentUser.isAdmin) return;
+  const users = getUsers();
+  const tbody = document.querySelector('#adminUserList tbody');
+  tbody.innerHTML = '';
+  Object.keys(users).forEach(username => {
+    const user = users[username];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${user.fullName}</td>
+      <td>${username}</td>
+      <td>${user.loginCount || 0}</td>
+      <td>${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  let totalReceipts = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.key(i).startsWith('receipt_')) totalReceipts++;
+  }
+  document.getElementById('totalReceipts').textContent = totalReceipts;
+  const requests = getResetRequests();
+  const resetTbody = document.querySelector('#adminResetRequests tbody');
+  resetTbody.innerHTML = '';
+  requests.forEach(username => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${username}</td>
+      <td><button onclick="approveReset('${username}')" class="small-btn">Approve & Reset</button></td>
+    `;
+    resetTbody.appendChild(tr);
+  });
+  document.getElementById('adminPanel').style.display = 'flex';
+}
+function closeAdminPanel() {
+  document.getElementById('adminPanel').style.display = 'none';
+}
+function showSection(sectionId) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+}
+/* ===== Receipt Functions ===== */
+function saveTempReceipt() {
+  const id = document.getElementById('receiptID').value.trim();
+  if (!id) return;
+  const data = getCurrentReceiptData();
+  data.id = id;
+  localStorage.setItem(STORAGE_KEY_TEMP_RECEIPT, JSON.stringify(data));
+}
+function loadTempReceipt() {
+  const saved = localStorage.getItem(STORAGE_KEY_TEMP_RECEIPT);
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById('receiptID').value = data.id || '';
+    document.getElementById('receiptName').value = data.name || '';
+    document.getElementById('receiptClass').value = data.class || '';
+    document.getElementById('receiptTerm').value = data.term || '1st Term';
+    document.getElementById('receiptSession').value = data.session || '';
+    document.getElementById('receiptDate').value = data.date || '';
+    const tbody = document.querySelector('#receiptTable tbody');
+    tbody.innerHTML = '';
+    (data.items || []).forEach(item => addReceiptRowInternal(item.desc, item.amt));
+    updateTotal();
+  }
+}
+function getCurrentReceiptData() {
+  const data = {
+    name: document.getElementById('receiptName').value,
+    class: document.getElementById('receiptClass').value,
+    term: document.getElementById('receiptTerm').value,
+    session: document.getElementById('receiptSession').value,
+    date: document.getElementById('receiptDate').value,
+    items: []
+  };
+  document.querySelectorAll('#receiptTable tbody tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    data.items.push({desc: inputs[0].value, amt: inputs[1].value});
+  });
+  return data;
+}
+function addReceiptRowInternal(desc='', amt='0') {
+  const tbody = document.getElementById('receiptTable').querySelector('tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input value="${desc}" oninput="saveTempReceipt()"></td>
+    <td><input class="amt" type="number" value="${amt}" oninput="updateTotal(); saveTempReceipt()"></td>
+    <td><button onclick="checkLogin(() => removeReceiptRow(this))" class="small-btn">Remove</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+function addReceiptRow() {
+  if (!currentUser) return;
+  addReceiptRowInternal();
+}
+function removeReceiptRow(btn) {
+  btn.closest('tr').remove();
+  updateTotal();
+  saveTempReceipt();
+}
+function updateTotal() {
+  let total = 0;
+  document.querySelectorAll('#receiptTable .amt').forEach(inp => total += Number(inp.value) || 0);
+  document.getElementById('totalReceipt').value = total.toLocaleString();
+}
+function validateReceipt() {
+  clearErrors();
+  let valid = true;
+  valid &= validateField('receiptID', 'receiptIDError', v => v.length > 0, 'Receipt ID is required');
+  valid &= validateField('receiptName', 'receiptNameError', v => v.length > 0, 'Student name is required');
+  valid &= validateField('receiptClass', 'receiptClassError', v => v.length > 0, 'Class is required');
+  valid &= validateField('receiptSession', 'receiptSessionError', v => v.length > 0, 'Session is required');
+  valid &= validateField('receiptDate', 'receiptDateError', v => v.length > 0, 'Date is required');
+  const rows = document.querySelectorAll('#receiptTable tbody tr');
+  let hasValidItem = false;
+  rows.forEach(row => {
+    const desc = row.querySelectorAll('input')[0].value.trim();
+    const amt = row.querySelectorAll('input')[1].value;
+    if (desc && Number(amt) > 0) hasValidItem = true;
+  });
+  if (!hasValidItem) {
+    document.getElementById('itemsError').textContent = 'At least one item must have description and amount > 0';
+    valid = false;
+  }
+  return valid;
+}
+function saveReceiptAndNew() {
+  if (!currentUser) {
+    alert("Please login to save receipts");
+    openLoginModal();
+    return;
+  }
+  if (!validateReceipt()) return;
+  const id = document.getElementById('receiptID').value.trim();
+  const data = getCurrentReceiptData();
+  data.savedBy = currentUser.name;
+  data.savedAt = new Date().toISOString();
+  localStorage.setItem(`receipt_${id}`, JSON.stringify(data));
+  alert(`Receipt saved as ${id} by ${currentUser.name}`);
+  localStorage.removeItem(STORAGE_KEY_TEMP_RECEIPT);
+  clearReceiptForm();
+}
+function loadReceipt() {
+  clearErrors();
+  const id = document.getElementById('receiptID').value.trim();
+  if (!id) {
+    document.getElementById('receiptIDError').textContent = 'Please enter a Receipt ID to load';
+    document.getElementById('receiptID').classList.add('invalid');
+    return;
+  }
+  const saved = localStorage.getItem(`receipt_${id}`);
+  if (!saved) {
+    alert(`No receipt found for ${id}`);
+    return;
+  }
+  const data = JSON.parse(saved);
+  document.getElementById('receiptName').value = data.name || '';
+  document.getElementById('receiptClass').value = data.class || '';
+  document.getElementById('receiptTerm').value = data.term || '1st Term';
+  document.getElementById('receiptSession').value = data.session || '';
+  document.getElementById('receiptDate').value = data.date || '';
+  const tbody = document.querySelector('#receiptTable tbody');
+  tbody.innerHTML = '';
+  (data.items || []).forEach(item => addReceiptRowInternal(item.desc, item.amt));
+  updateTotal();
+}
+function clearReceiptForm() {
+  document.getElementById('receiptID').value = '';
+  document.getElementById('receiptName').value = '';
+  document.getElementById('receiptClass').value = '';
+  document.getElementById('receiptTerm').value = '1st Term';
+  document.getElementById('receiptSession').value = '';
+  document.getElementById('receiptDate').value = '';
+  const tbody = document.querySelector('#receiptTable tbody');
+  tbody.innerHTML = '';
+  addReceiptRowInternal('', '0');
+  updateTotal();
+  clearErrors();
+}
+/* Paycheck, Invoice, Expense functions remain unchanged – omitted here for brevity but are identical to your original code */
+function saveTempPaycheck() {
+  const id = document.getElementById('paycheckID').value.trim();
+  if (!id) return;
+  const data = getCurrentPaycheckData();
+  data.id = id;
+  localStorage.setItem(STORAGE_KEY_TEMP_PAYCHECK, JSON.stringify(data));
+}
+function loadTempPaycheck() {
+  const saved = localStorage.getItem(STORAGE_KEY_TEMP_PAYCHECK);
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById('paycheckID').value = data.id || '';
+    document.getElementById('paycheckName').value = data.name || '';
+    document.getElementById('paycheckStaffID').value = data.staffID || '';
+    document.getElementById('paycheckMonth').value = data.month || 'January';
+    document.getElementById('paycheckYear').value = data.year || '';
+    document.getElementById('paycheckDate').value = data.date || '';
+    const tbody = document.querySelector('#paycheckTable tbody');
+    tbody.innerHTML = '';
+    (data.items || []).forEach(item => addPaycheckRowInternal(item.desc, item.amt));
+    updatePaycheckTotal();
+  }
+}
+function getCurrentPaycheckData() {
+  const data = {
+    name: document.getElementById('paycheckName').value,
+    staffID: document.getElementById('paycheckStaffID').value,
+    month: document.getElementById('paycheckMonth').value,
+    year: document.getElementById('paycheckYear').value,
+    date: document.getElementById('paycheckDate').value,
+    items: []
+  };
+  document.querySelectorAll('#paycheckTable tbody tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    data.items.push({desc: inputs[0].value, amt: inputs[1].value});
+  });
+  return data;
+}
+function addPaycheckRowInternal(desc = '', amt = '0') {
+  const tbody = document.querySelector('#paycheckTable tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input value="${desc}" oninput="updatePaycheckTotal(); saveTempPaycheck()"></td>
+    <td><input type="number" class="amt" value="${amt}" oninput="updatePaycheckTotal(); saveTempPaycheck()"></td>
+    <td><button onclick="checkLogin(() => { this.closest('tr').remove(); updatePaycheckTotal(); saveTempPaycheck(); })" class="small-btn">Remove</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+function addPaycheckRow() {
+  if (!currentUser) return;
+  addPaycheckRowInternal();
+}
+function updatePaycheckTotal() {
+  let total = 0;
+  document.querySelectorAll('#paycheckTable .amt').forEach(inp => total += Number(inp.value) || 0);
+  document.getElementById('totalPaycheck').value = total.toLocaleString();
+}
+function validatePaycheck() {
+  clearErrors('paycheck');
+  let valid = true;
+  valid &= validateField('paycheckID', 'paycheckIDError', v => v.length > 0, 'Paycheck ID is required');
+  valid &= validateField('paycheckName', 'paycheckNameError', v => v.length > 0, 'Staff name is required');
+  valid &= validateField('paycheckStaffID', 'paycheckStaffIDError', v => v.length > 0, 'Staff ID is required');
+  valid &= validateField('paycheckYear', 'paycheckYearError', v => v.length > 0, 'Year is required');
+  valid &= validateField('paycheckDate', 'paycheckDateError', v => v.length > 0, 'Pay date is required');
+  const rows = document.querySelectorAll('#paycheckTable tbody tr');
+  let hasValidItem = false;
+  rows.forEach(row => {
+    const desc = row.querySelectorAll('input')[0].value.trim();
+    const amt = row.querySelectorAll('input')[1].value;
+    if (desc && Number(amt) > 0) hasValidItem = true;
+  });
+  if (!hasValidItem) {
+    document.getElementById('paycheckItemsError').textContent = 'At least one item must have description and amount > 0';
+    valid = false;
+  }
+  return valid;
+}
+function savePaycheck() {
+  if (!currentUser) {
+    alert("Please login to save paychecks");
+    openLoginModal();
+    return;
+  }
+  if (!validatePaycheck()) return;
+  const id = document.getElementById('paycheckID').value.trim();
+  const data = getCurrentPaycheckData();
+  data.savedBy = currentUser.name;
+  data.savedAt = new Date().toISOString();
+  localStorage.setItem(`paycheck_${id}`, JSON.stringify(data));
+  alert(`Paycheck saved as ${id} by ${currentUser.name}`);
+  localStorage.removeItem(STORAGE_KEY_TEMP_PAYCHECK);
+  clearPaycheckForm();
+}
+function loadPaycheck() {
+  clearErrors('paycheck');
+  const id = document.getElementById('paycheckID').value.trim();
+  if (!id) {
+    document.getElementById('paycheckIDError').textContent = 'Please enter a Paycheck ID to load';
+    document.getElementById('paycheckID').classList.add('invalid');
+    return;
+  }
+  const saved = localStorage.getItem(`paycheck_${id}`);
+  if (!saved) {
+    alert(`No paycheck found for ${id}`);
+    return;
+  }
+  const data = JSON.parse(saved);
+  document.getElementById('paycheckName').value = data.name || '';
+  document.getElementById('paycheckStaffID').value = data.staffID || '';
+  document.getElementById('paycheckMonth').value = data.month || 'January';
+  document.getElementById('paycheckYear').value = data.year || '';
+  document.getElementById('paycheckDate').value = data.date || '';
+  const tbody = document.querySelector('#paycheckTable tbody');
+  tbody.innerHTML = '';
+  (data.items || []).forEach(item => addPaycheckRowInternal(item.desc, item.amt));
+  updatePaycheckTotal();
+}
+function clearPaycheckForm() {
+  document.getElementById('paycheckID').value = '';
+  document.getElementById('paycheckName').value = '';
+  document.getElementById('paycheckStaffID').value = '';
+  document.getElementById('paycheckMonth').value = 'January';
+  document.getElementById('paycheckYear').value = '';
+  document.getElementById('paycheckDate').value = '';
+  const tbody = document.querySelector('#paycheckTable tbody');
+  tbody.innerHTML = '';
+  addPaycheckRowInternal('', '0');
+  updatePaycheckTotal();
+  clearErrors('paycheck');
+}
+function saveTempInvoice() {
+  const id = document.getElementById('invoiceNo').value.trim();
+  if (!id) return;
+  const data = getCurrentInvoiceData();
+  data.id = id;
+  localStorage.setItem(STORAGE_KEY_TEMP_INVOICE, JSON.stringify(data));
+}
+function loadTempInvoice() {
+  const saved = localStorage.getItem(STORAGE_KEY_TEMP_INVOICE);
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById('invoiceNo').value = data.id || '';
+    document.getElementById('invoiceTo').value = data.to || '';
+    document.getElementById('invoiceAddress').value = data.address || '';
+    document.getElementById('invoiceDate').value = data.date || '';
+    document.getElementById('invoiceDue').value = data.due || '';
+    const tbody = document.querySelector('#invoiceTable tbody');
+    tbody.innerHTML = '';
+    (data.items || []).forEach(item => addInvoiceRowInternal(item.desc, item.qty, item.price));
+    updateInvoiceTotal();
+  }
+}
+function getCurrentInvoiceData() {
+  const data = {
+    to: document.getElementById('invoiceTo').value,
+    address: document.getElementById('invoiceAddress').value,
+    date: document.getElementById('invoiceDate').value,
+    due: document.getElementById('invoiceDue').value,
+    items: []
+  };
+  document.querySelectorAll('#invoiceTable tbody tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    data.items.push({
+      desc: inputs[0].value,
+      qty: inputs[1].value,
+      price: inputs[2].value
     });
-    // ... etc.
-
-  </script>
+  });
+  return data;
+}
+function addInvoiceRowInternal(desc = '', qty = '1', price = '0') {
+  const tbody = document.querySelector('#invoiceTable tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input value="${desc}" oninput="updateInvoiceRow(this); saveTempInvoice()"></td>
+    <td><input type="number" class="qty" value="${qty}" min="1" oninput="updateInvoiceRow(this); saveTempInvoice()"></td>
+    <td><input type="number" class="price" value="${price}" oninput="updateInvoiceRow(this); saveTempInvoice()"></td>
+    <td><input type="number" class="line-total" readonly></td>
+    <td><button onclick="checkLogin(() => { this.closest('tr').remove(); updateInvoiceTotal(); saveTempInvoice(); })" class="small-btn">Remove</button></td>
+  `;
+  tbody.appendChild(tr);
+  updateInvoiceRow(tr.querySelector('.qty') || tr.querySelector('.price'));
+}
+function addInvoiceRow() {
+  if (!currentUser) return;
+  addInvoiceRowInternal();
+}
+function updateInvoiceRow(input) {
+  const row = input.closest('tr');
+  const qty = Number(row.querySelector('.qty').value) || 0;
+  const price = Number(row.querySelector('.price').value) || 0;
+  const lineTotal = qty * price;
+  row.querySelector('.line-total').value = lineTotal.toLocaleString();
+  updateInvoiceTotal();
+  saveTempInvoice();
+}
+function updateInvoiceTotal() {
+  let total = 0;
+  document.querySelectorAll('#invoiceTable .line-total').forEach(inp => {
+    total += Number(inp.value.replace(/,/g, '')) || 0;
+  });
+  document.getElementById('totalInvoice').value = total.toLocaleString();
+}
+function validateInvoice() {
+  clearErrors('invoice');
+  let valid = true;
+  valid &= validateField('invoiceNo', 'invoiceNoError', v => v.length > 0, 'Invoice No is required');
+  valid &= validateField('invoiceTo', 'invoiceToError', v => v.length > 0, 'Invoice To is required');
+  valid &= validateField('invoiceDate', 'invoiceDateError', v => v.length > 0, 'Invoice Date is required');
+  const rows = document.querySelectorAll('#invoiceTable tbody tr');
+  let hasValidItem = false;
+  rows.forEach(row => {
+    const desc = row.querySelectorAll('input')[0].value.trim();
+    const qty = Number(row.querySelector('.qty').value) || 0;
+    const price = Number(row.querySelector('.price').value) || 0;
+    if (desc && qty > 0 && price > 0) hasValidItem = true;
+  });
+  if (!hasValidItem) {
+    document.getElementById('invoiceItemsError').textContent = 'At least one item must have description, quantity > 0 and unit price > 0';
+    valid = false;
+  }
+  return valid;
+}
+function saveInvoice() {
+  if (!currentUser) {
+    alert("Please login to save invoices");
+    openLoginModal();
+    return;
+  }
+  if (!validateInvoice()) return;
+  const id = document.getElementById('invoiceNo').value.trim();
+  const data = getCurrentInvoiceData();
+  data.savedBy = currentUser.name;
+  data.savedAt = new Date().toISOString();
+  localStorage.setItem(`invoice_${id}`, JSON.stringify(data));
+  alert(`Invoice saved as ${id} by ${currentUser.name}`);
+  localStorage.removeItem(STORAGE_KEY_TEMP_INVOICE);
+  clearInvoiceForm();
+}
+function loadInvoice() {
+  clearErrors('invoice');
+  const id = document.getElementById('invoiceNo').value.trim();
+  if (!id) {
+    document.getElementById('invoiceNoError').textContent = 'Please enter an Invoice No to load';
+    document.getElementById('invoiceNo').classList.add('invalid');
+    return;
+  }
+  const saved = localStorage.getItem(`invoice_${id}`);
+  if (!saved) {
+    alert(`No invoice found for ${id}`);
+    return;
+  }
+  const data = JSON.parse(saved);
+  document.getElementById('invoiceTo').value = data.to || '';
+  document.getElementById('invoiceAddress').value = data.address || '';
+  document.getElementById('invoiceDate').value = data.date || '';
+  document.getElementById('invoiceDue').value = data.due || '';
+  const tbody = document.querySelector('#invoiceTable tbody');
+  tbody.innerHTML = '';
+  (data.items || []).forEach(item => addInvoiceRowInternal(item.desc, item.qty, item.price));
+  updateInvoiceTotal();
+}
+function clearInvoiceForm() {
+  document.getElementById('invoiceNo').value = '';
+  document.getElementById('invoiceTo').value = '';
+  document.getElementById('invoiceAddress').value = '';
+  document.getElementById('invoiceDate').value = '';
+  document.getElementById('invoiceDue').value = '';
+  const tbody = document.querySelector('#invoiceTable tbody');
+  tbody.innerHTML = '';
+  addInvoiceRowInternal();
+  updateInvoiceTotal();
+  clearErrors('invoice');
+}
+function saveTempExpense() {
+  const id = document.getElementById('expenseID').value.trim();
+  if (!id) return;
+  const data = getCurrentExpenseData();
+  data.id = id;
+  localStorage.setItem(STORAGE_KEY_TEMP_EXPENSE, JSON.stringify(data));
+}
+function loadTempExpense() {
+  const saved = localStorage.getItem(STORAGE_KEY_TEMP_EXPENSE);
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById('expenseID').value = data.id || '';
+    document.getElementById('expenseDate').value = data.date || '';
+    document.getElementById('expenseCategory').value = data.category || 'Supplies';
+    document.getElementById('expensePaidTo').value = data.paidTo || '';
+    document.getElementById('expenseNotes').value = data.notes || '';
+    const tbody = document.querySelector('#expenseTable tbody');
+    tbody.innerHTML = '';
+    (data.items || []).forEach(item => addExpenseRowInternal(item.desc, item.amt));
+    updateExpenseTotal();
+  }
+}
+function getCurrentExpenseData() {
+  const data = {
+    date: document.getElementById('expenseDate').value,
+    category: document.getElementById('expenseCategory').value,
+    paidTo: document.getElementById('expensePaidTo').value,
+    notes: document.getElementById('expenseNotes').value,
+    items: []
+  };
+  document.querySelectorAll('#expenseTable tbody tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    data.items.push({desc: inputs[0].value, amt: inputs[1].value});
+  });
+  return data;
+}
+function addExpenseRowInternal(desc = '', amt = '0') {
+  const tbody = document.querySelector('#expenseTable tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input value="${desc}" oninput="updateExpenseTotal(); saveTempExpense()"></td>
+    <td><input type="number" class="amt" value="${amt}" oninput="updateExpenseTotal(); saveTempExpense()"></td>
+    <td><button onclick="checkLogin(() => { this.closest('tr').remove(); updateExpenseTotal(); saveTempExpense(); })" class="small-btn">Remove</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+function addExpenseRow() {
+  if (!currentUser) return;
+  addExpenseRowInternal();
+}
+function updateExpenseTotal() {
+  let total = 0;
+  document.querySelectorAll('#expenseTable .amt').forEach(inp => total += Number(inp.value) || 0);
+  document.getElementById('totalExpense').value = total.toLocaleString();
+}
+function validateExpense() {
+  clearErrors('expense');
+  let valid = true;
+  valid &= validateField('expenseID', 'expenseIDError', v => v.length > 0, 'Expense ID is required');
+  valid &= validateField('expenseDate', 'expenseDateError', v => v.length > 0, 'Expense Date is required');
+  valid &= validateField('expensePaidTo', 'expensePaidToError', v => v.length > 0, 'Paid To is required');
+  const rows = document.querySelectorAll('#expenseTable tbody tr');
+  let hasValidItem = false;
+  rows.forEach(row => {
+    const desc = row.querySelectorAll('input')[0].value.trim();
+    const amt = row.querySelectorAll('input')[1].value;
+    if (desc && Number(amt) > 0) hasValidItem = true;
+  });
+  if (!hasValidItem) {
+    document.getElementById('expenseItemsError').textContent = 'At least one item must have description and amount > 0';
+    valid = false;
+  }
+  return valid;
+}
+function saveExpense() {
+  if (!currentUser) {
+    alert("Please login to save expenses");
+    openLoginModal();
+    return;
+  }
+  if (!validateExpense()) return;
+  const id = document.getElementById('expenseID').value.trim();
+  const data = getCurrentExpenseData();
+  data.savedBy = currentUser.name;
+  data.savedAt = new Date().toISOString();
+  localStorage.setItem(`expense_${id}`, JSON.stringify(data));
+  alert(`Expense saved as ${id} by ${currentUser.name}`);
+  localStorage.removeItem(STORAGE_KEY_TEMP_EXPENSE);
+  clearExpenseForm();
+}
+function loadExpense() {
+  clearErrors('expense');
+  const id = document.getElementById('expenseID').value.trim();
+  if (!id) {
+    document.getElementById('expenseIDError').textContent = 'Please enter an Expense ID to load';
+    document.getElementById('expenseID').classList.add('invalid');
+    return;
+  }
+  const saved = localStorage.getItem(`expense_${id}`);
+  if (!saved) {
+    alert(`No expense found for ${id}`);
+    return;
+  }
+  const data = JSON.parse(saved);
+  document.getElementById('expenseDate').value = data.date || '';
+  document.getElementById('expenseCategory').value = data.category || 'Supplies';
+  document.getElementById('expensePaidTo').value = data.paidTo || '';
+  document.getElementById('expenseNotes').value = data.notes || '';
+  const tbody = document.querySelector('#expenseTable tbody');
+  tbody.innerHTML = '';
+  (data.items || []).forEach(item => addExpenseRowInternal(item.desc, item.amt));
+  updateExpenseTotal();
+}
+function clearExpenseForm() {
+  document.getElementById('expenseID').value = '';
+  document.getElementById('expenseDate').value = '';
+  document.getElementById('expenseCategory').value = 'Supplies';
+  document.getElementById('expensePaidTo').value = '';
+  document.getElementById('expenseNotes').value = '';
+  const tbody = document.querySelector('#expenseTable tbody');
+  tbody.innerHTML = '';
+  addExpenseRowInternal('', '0');
+  updateExpenseTotal();
+  clearErrors('expense');
+}
+function clearLogo(e) {
+  e.stopPropagation();
+  localStorage.removeItem(STORAGE_KEY_LOGO);
+  const container = document.querySelector('.school-logo');
+  container.innerHTML = '';
+}
+function clearSignature(e, inputId) {
+  e.stopPropagation();
+  const key = inputId === 'financeInput' ? STORAGE_KEY_SIG_FINANCE : STORAGE_KEY_SIG_STAMP;
+  localStorage.removeItem(key);
+  const container = document.querySelector(`#${inputId}`).parentElement.querySelector('.signature-upload');
+  container.innerHTML = '<span class="clear-icon" onclick="checkLogin(() => clearSignature(event, \'' + inputId + '\'))" title="Remove">×</span>';
+}
+function previewLogo(e) {
+  const file = e.target.files[0];
+  if (!file || file.size > 5*1024*1024) { alert("File too large"); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    localStorage.setItem(STORAGE_KEY_LOGO, ev.target.result);
+    const img = document.createElement('img');
+    img.src = ev.target.result;
+    const container = document.querySelector('.school-logo');
+    container.innerHTML = '';
+    container.appendChild(img);
+    const clear = document.createElement('span');
+    clear.className = 'clear-icon';
+    clear.innerHTML = '×';
+    clear.title = 'Remove Logo';
+    clear.onclick = (e) => clearLogo(e);
+    container.appendChild(clear);
+  };
+  reader.readAsDataURL(file);
+}
+function previewSignature(e, input) {
+  const file = e.target.files[0];
+  if (!file || file.size > 5*1024*1024) { alert("File too large"); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const key = input.id === 'financeInput' ? STORAGE_KEY_SIG_FINANCE : STORAGE_KEY_SIG_STAMP;
+    localStorage.setItem(key, ev.target.result);
+    const img = document.createElement('img');
+    img.src = ev.target.result;
+    const container = input.parentElement.querySelector('.signature-upload');
+    container.innerHTML = '';
+    container.appendChild(img);
+    const clear = document.createElement('span');
+    clear.className = 'clear-icon';
+    clear.innerHTML = '×';
+    clear.title = 'Remove';
+    clear.onclick = (ev) => clearSignature(ev, input.id);
+    container.appendChild(clear);
+  };
+  reader.readAsDataURL(file);
+}
+function loadImages() {
+  const logo = localStorage.getItem(STORAGE_KEY_LOGO);
+  if (logo) {
+    const img = document.createElement('img');
+    img.src = logo;
+    const container = document.querySelector('.school-logo');
+    container.innerHTML = '';
+    container.appendChild(img);
+    const clear = document.createElement('span');
+    clear.className = 'clear-icon';
+    clear.innerHTML = '×';
+    clear.title = 'Remove Logo';
+    clear.onclick = (e) => clearLogo(e);
+    container.appendChild(clear);
+  }
+  ['financeInput','stampInput'].forEach(id => {
+    const key = id === 'financeInput' ? STORAGE_KEY_SIG_FINANCE : STORAGE_KEY_SIG_STAMP;
+    const data = localStorage.getItem(key);
+    if (data) {
+      const img = document.createElement('img');
+      img.src = data;
+      const container = document.getElementById(id).parentElement.querySelector('.signature-upload');
+      container.innerHTML = '';
+      container.appendChild(img);
+      const clear = document.createElement('span');
+      clear.className = 'clear-icon';
+      clear.innerHTML = '×';
+      clear.title = 'Remove';
+      clear.onclick = (ev) => clearSignature(ev, id);
+      container.appendChild(clear);
+    }
+  });
+}
+window.onload = function() {
+  loadImages();
+  addReceiptRowInternal('', '0');
+  updateTotal();
+  addPaycheckRowInternal('', '0');
+  addInvoiceRowInternal();
+  addExpenseRowInternal('', '0');
+  const savedUser = localStorage.getItem(STORAGE_KEY_CURRENT_USER);
+  if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    loadTempReceipt();
+    resetIdleTimer();
+    document.addEventListener('mousemove', resetIdleTimer);
+    document.addEventListener('keydown', resetIdleTimer);
+    document.addEventListener('touchstart', resetIdleTimer);
+    document.getElementById('loginOverlay').style.display = 'none';
+  }
+  updateUIAfterLogin();
+};
+document.querySelectorAll('#receiptID, #receiptName, #receiptClass, #receiptTerm, #receiptSession, #receiptDate').forEach(el => {
+  el.addEventListener('input', saveTempReceipt);
+});
+document.querySelector('#receiptTable').addEventListener('input', saveTempReceipt);
+document.querySelectorAll('#paycheckID, #paycheckName, #paycheckStaffID, #paycheckMonth, #paycheckYear, #paycheckDate').forEach(el => {
+  el.addEventListener('input', saveTempPaycheck);
+});
+document.querySelectorAll('#invoiceNo, #invoiceTo, #invoiceAddress, #invoiceDate, #invoiceDue').forEach(el => {
+  el.addEventListener('input', saveTempInvoice);
+});
+document.querySelectorAll('#expenseID, #expenseDate, #expenseCategory, #expensePaidTo, #expenseNotes').forEach(el => {
+  el.addEventListener('input', saveTempExpense);
+});
+</script>
 </body>
 </html>
