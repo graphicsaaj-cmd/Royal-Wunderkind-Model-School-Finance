@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Royal Wunderkind Model School – Financial Tools</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- All your HTML body content unchanged -->
+  <div id="loginOverlay">
+    <div>
+      <h2>Please Login to Use the Application</h2>
+      <button onclick="openLoginModal()" style="padding:15px 30px; font-size:18px; background:#ff6a00; color:white; border:none; border-radius:8px; cursor:pointer;">Login Now</button>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal"> ... </div>
+  <div id="requestResetModal"> ... </div>
+  <div id="adminPanel"> ... </div>
+
+  <div class="container">
+    <!-- School header, controls, sections, etc. -->
+    <!-- (Exact same HTML as in your original <body>) -->
+    <div class="school-header">
+      <div class="school-logo" onclick="checkLogin(() => document.getElementById('logoInput').click())">
+        <span class="clear-icon" onclick="checkLogin(() => clearLogo(event))" title="Remove Logo">×</span>
+      </div>
+      <input type="file" id="logoInput" style="display:none" accept="image/*" onchange="previewLogo(event)">
+      <div class="school-info">
+        <h1 contenteditable="true" id="schoolName">ROYAL WUNDERKIND MODEL SCHOOL</h1>
+        <p contenteditable="true" id="schoolMotto">Partnering with Christ for a better world</p>
+        <div class="contact-line"><i class="fas fa-map-marker-alt"></i> <span contenteditable="true" id="schoolAddress">Beside Solar House, Close to colony 3 Hostel, Jalala GRA, Tanke Oke-odo, Ilorin, Kwara state.</span></div>
+        <div class="contact-line"><i class="fas fa-phone"></i> <span contenteditable="true" id="schoolPhone">08142856970, 09012521178</span></div>
+        <div class="contact-line"><i class="fas fa-envelope"></i> <span contenteditable="true" id="schoolEmail">royalwunderkindmodelschool@gmail.com</span></div>
+        <div class="contact-line"><i class="fas fa-globe"></i> <span contenteditable="true" id="schoolWebsite">www.royalwunderkindmodelschools.com</span></div>
+      </div>
+    </div>
+
+    <div class="user-info">
+      Logged in as: <strong id="currentUser">Guest</strong>
+      <button id="loginBtn" onclick="openLoginModal()" class="small-btn">Login</button>
+      <button id="logoutBtn" onclick="logout()" style="display:none;" class="small-btn">Logout</button>
+      <button id="adminViewBtn" onclick="openAdminPanel()" style="display:none;" class="small-btn">Admin Dashboard</button>
+    </div>
+
+    <div class="controls">
+      <button onclick="showSection('receiptSection')" class="small-btn">School Fees Receipt</button>
+      <button onclick="showSection('paycheckSection')" class="staff-btn">Staff Paycheck</button>
+      <button onclick="showSection('invoiceSection')" class="invoice-btn">Invoice Entries</button>
+      <button onclick="showSection('expenseSection')" class="expense-btn">Expense Tracking</button>
+      <button onclick="window.print()" class="print-btn">Print</button>
+    </div>
+
+    <!-- All four sections: receipt, paycheck, invoice, expense (unchanged) -->
+    <!-- ... (your original section HTML) ... -->
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // === Your entire JavaScript code goes here (unchanged) ===
+    // (Paste everything from <script> ... </script> in your original file)
+    // Including constants, functions, event listeners, onload, etc.
+
+    // For brevity, only the start is shown – copy the full script from your original code
+    const STORAGE_KEY_LOGO = 'schoolLogo';
+    const STORAGE_KEY_SIG_FINANCE = 'sigFinance';
+    const STORAGE_KEY_SIG_STAMP = 'sigStamp';
+    // ... (all the rest of your JS exactly as provided)
+
+    window.onload = function() {
+      loadImages();
+      addReceiptRowInternal('', '0');
+      updateTotal();
+      addPaycheckRowInternal('', '0');
+      addInvoiceRowInternal();
+      addExpenseRowInternal('', '0');
+      const savedUser = localStorage.getItem(STORAGE_KEY_CURRENT_USER);
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        loadTempReceipt();
+        resetIdleTimer();
+        document.addEventListener('mousemove', resetIdleTimer);
+        document.addEventListener('keydown', resetIdleTimer);
+        document.addEventListener('touchstart', resetIdleTimer);
+        document.getElementById('loginOverlay').style.display = 'none';
+      }
+      updateUIAfterLogin();
+    };
+
+    // All input event listeners at the bottom
+    document.querySelectorAll('#receiptID, #receiptName, #receiptClass, #receiptTerm, #receiptSession, #receiptDate').forEach(el => {
+      el.addEventListener('input', saveTempReceipt);
+    });
+    // ... etc.
+
+  </script>
+</body>
+</html>
