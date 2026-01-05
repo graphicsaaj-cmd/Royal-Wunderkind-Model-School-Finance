@@ -118,6 +118,7 @@ h1, h2, h3, .section-title {
   font-size: 16px;
   width: 20px;
   text-align: center;
+  vertical-align: middle;
 }
 .controls {
   display: flex;
@@ -302,6 +303,25 @@ button.expense-btn {
 .section.active {
   display: block;
 }
+@media (max-width: 767px) {
+  .school-header { flex-direction: column; text-align: center; }
+  .controls { flex-direction: column; }
+  button { width: 100%; }
+}
+#loginOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Print styles */
 @media print {
   @page { size: A4; margin: 10mm; }
   body, .container { background: white; margin: 0; padding: 12mm; }
@@ -323,29 +343,30 @@ button.expense-btn {
   select::-ms-expand {
     display: none;
   }
+
+  /* Hide the calendar picker icon in print mode */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-clear-button {
+    display: none !important;
+  }
+
+  /* Ensure perfect vertical alignment of location icon in print */
+  .contact-line {
+    align-items: baseline !important;
+  }
+  .contact-line i {
+    vertical-align: middle !important;
+  }
+
   #receiptTable th:last-child, #receiptTable td:last-child,
   #paycheckTable th:last-child, #paycheckTable td:last-child,
   #invoiceTable th:last-child, #invoiceTable td:last-child,
   #expenseTable th:last-child, #expenseTable td:last-child {
     display: none !important;
   }
-}
-@media (max-width: 767px) {
-  .school-header { flex-direction: column; text-align: center; }
-  .controls { flex-direction: column; }
-  button { width: 100%; }
-}
-#loginOverlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  color: white;
-  font-size: 24px;
-  text-align: center;
 }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -625,7 +646,6 @@ function exportReceiptToExcel() {
   const wb = XLSX.utils.book_new();
   const data = [];
 
-  // Header info
   data.push(["School:", document.getElementById("schoolName").textContent]);
   data.push(["Receipt ID:", document.getElementById("receiptID").value]);
   data.push(["Student Name:", document.getElementById("receiptName").value]);
@@ -635,10 +655,8 @@ function exportReceiptToExcel() {
   data.push(["Date:", document.getElementById("receiptDate").value]);
   data.push([]); // blank row
 
-  // Table headers
   data.push(["Description", "Amount (₦)"]);
 
-  // Table rows
   document.querySelectorAll("#receiptTable tbody tr").forEach(row => {
     const desc = row.querySelectorAll("input")[0].value;
     const amt = row.querySelectorAll("input")[1].value;
@@ -734,7 +752,7 @@ function exportExpenseToExcel() {
   XLSX.writeFile(wb, `Expense_${document.getElementById("expenseID").value || "Untitled"}.xlsx`);
 }
 
-/* ------------------- Rest of the original script (unchanged except minor additions) ------------------- */
+/* ------------------- Rest of the script ------------------- */
 async function sha256(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
@@ -765,7 +783,7 @@ const DEFAULT_USERS = {
     lastLogin: null
   }
 };
-// ... (all the rest of the original JavaScript remains exactly the same as provided)
+
 function getUsers() {
   let users = localStorage.getItem(STORAGE_KEY_USERS);
   if (!users) {
@@ -1005,7 +1023,6 @@ function showSection(sectionId) {
 /* ===== Receipt Functions ===== */
 function saveTempReceipt() {
   const id = document.getElementById('receiptID').value.trim();
-  if (!id) return;
   const data = getCurrentReceiptData();
   data.id = id;
   localStorage.setItem(STORAGE_KEY_TEMP_RECEIPT, JSON.stringify(data));
@@ -1105,26 +1122,25 @@ function saveReceiptAndNew() {
 function loadReceipt() {
   clearErrors();
   const id = document.getElementById('receiptID').value.trim();
-  if (!id) {
-    document.getElementById('receiptIDError').textContent = 'Please enter a Receipt ID to load';
-    document.getElementById('receiptID').classList.add('invalid');
-    return;
+  if (id) {
+    const saved = localStorage.getItem(`receipt_${id}`);
+    if (saved) {
+      const data = JSON.parse(saved);
+      document.getElementById('receiptName').value = data.name || '';
+      document.getElementById('receiptClass').value = data.class || '';
+      document.getElementById('receiptTerm').value = data.term || '1st Term';
+      document.getElementById('receiptSession').value = data.session || '';
+      document.getElementById('receiptDate').value = data.date || '';
+      const tbody = document.querySelector('#receiptTable tbody');
+      tbody.innerHTML = '';
+      (data.items || []).forEach(item => addReceiptRowInternal(item.desc, item.amt));
+      updateTotal();
+      return;
+    }
   }
-  const saved = localStorage.getItem(`receipt_${id}`);
-  if (!saved) {
-    alert(`No receipt found for ${id}`);
-    return;
-  }
-  const data = JSON.parse(saved);
-  document.getElementById('receiptName').value = data.name || '';
-  document.getElementById('receiptClass').value = data.class || '';
-  document.getElementById('receiptTerm').value = data.term || '1st Term';
-  document.getElementById('receiptSession').value = data.session || '';
-  document.getElementById('receiptDate').value = data.date || '';
-  const tbody = document.querySelector('#receiptTable tbody');
-  tbody.innerHTML = '';
-  (data.items || []).forEach(item => addReceiptRowInternal(item.desc, item.amt));
-  updateTotal();
+  alert(id ? `No saved receipt found for ${id}. Loaded auto-saved draft instead.` : 'No Receipt ID entered. Loaded auto-saved draft.');
+  loadTempReceipt();
+  document.getElementById('receiptID').value = ''; // Clear for draft
 }
 function clearReceiptForm() {
   document.getElementById('receiptID').value = '';
@@ -1139,10 +1155,10 @@ function clearReceiptForm() {
   updateTotal();
   clearErrors();
 }
-/* Paycheck, Invoice, Expense functions remain unchanged – omitted here for brevity but are identical to your original code */
+
+/* Paycheck Functions */
 function saveTempPaycheck() {
   const id = document.getElementById('paycheckID').value.trim();
-  if (!id) return;
   const data = getCurrentPaycheckData();
   data.id = id;
   localStorage.setItem(STORAGE_KEY_TEMP_PAYCHECK, JSON.stringify(data));
@@ -1237,26 +1253,25 @@ function savePaycheck() {
 function loadPaycheck() {
   clearErrors('paycheck');
   const id = document.getElementById('paycheckID').value.trim();
-  if (!id) {
-    document.getElementById('paycheckIDError').textContent = 'Please enter a Paycheck ID to load';
-    document.getElementById('paycheckID').classList.add('invalid');
-    return;
+  if (id) {
+    const saved = localStorage.getItem(`paycheck_${id}`);
+    if (saved) {
+      const data = JSON.parse(saved);
+      document.getElementById('paycheckName').value = data.name || '';
+      document.getElementById('paycheckStaffID').value = data.staffID || '';
+      document.getElementById('paycheckMonth').value = data.month || 'January';
+      document.getElementById('paycheckYear').value = data.year || '';
+      document.getElementById('paycheckDate').value = data.date || '';
+      const tbody = document.querySelector('#paycheckTable tbody');
+      tbody.innerHTML = '';
+      (data.items || []).forEach(item => addPaycheckRowInternal(item.desc, item.amt));
+      updatePaycheckTotal();
+      return;
+    }
   }
-  const saved = localStorage.getItem(`paycheck_${id}`);
-  if (!saved) {
-    alert(`No paycheck found for ${id}`);
-    return;
-  }
-  const data = JSON.parse(saved);
-  document.getElementById('paycheckName').value = data.name || '';
-  document.getElementById('paycheckStaffID').value = data.staffID || '';
-  document.getElementById('paycheckMonth').value = data.month || 'January';
-  document.getElementById('paycheckYear').value = data.year || '';
-  document.getElementById('paycheckDate').value = data.date || '';
-  const tbody = document.querySelector('#paycheckTable tbody');
-  tbody.innerHTML = '';
-  (data.items || []).forEach(item => addPaycheckRowInternal(item.desc, item.amt));
-  updatePaycheckTotal();
+  alert(id ? `No saved paycheck found for ${id}. Loaded auto-saved draft instead.` : 'No Paycheck ID entered. Loaded auto-saved draft.');
+  loadTempPaycheck();
+  document.getElementById('paycheckID').value = ''; // Clear for draft
 }
 function clearPaycheckForm() {
   document.getElementById('paycheckID').value = '';
@@ -1271,9 +1286,10 @@ function clearPaycheckForm() {
   updatePaycheckTotal();
   clearErrors('paycheck');
 }
+
+/* Invoice Functions */
 function saveTempInvoice() {
   const id = document.getElementById('invoiceNo').value.trim();
-  if (!id) return;
   const data = getCurrentInvoiceData();
   data.id = id;
   localStorage.setItem(STORAGE_KEY_TEMP_INVOICE, JSON.stringify(data));
@@ -1383,25 +1399,24 @@ function saveInvoice() {
 function loadInvoice() {
   clearErrors('invoice');
   const id = document.getElementById('invoiceNo').value.trim();
-  if (!id) {
-    document.getElementById('invoiceNoError').textContent = 'Please enter an Invoice No to load';
-    document.getElementById('invoiceNo').classList.add('invalid');
-    return;
+  if (id) {
+    const saved = localStorage.getItem(`invoice_${id}`);
+    if (saved) {
+      const data = JSON.parse(saved);
+      document.getElementById('invoiceTo').value = data.to || '';
+      document.getElementById('invoiceAddress').value = data.address || '';
+      document.getElementById('invoiceDate').value = data.date || '';
+      document.getElementById('invoiceDue').value = data.due || '';
+      const tbody = document.querySelector('#invoiceTable tbody');
+      tbody.innerHTML = '';
+      (data.items || []).forEach(item => addInvoiceRowInternal(item.desc, item.qty, item.price));
+      updateInvoiceTotal();
+      return;
+    }
   }
-  const saved = localStorage.getItem(`invoice_${id}`);
-  if (!saved) {
-    alert(`No invoice found for ${id}`);
-    return;
-  }
-  const data = JSON.parse(saved);
-  document.getElementById('invoiceTo').value = data.to || '';
-  document.getElementById('invoiceAddress').value = data.address || '';
-  document.getElementById('invoiceDate').value = data.date || '';
-  document.getElementById('invoiceDue').value = data.due || '';
-  const tbody = document.querySelector('#invoiceTable tbody');
-  tbody.innerHTML = '';
-  (data.items || []).forEach(item => addInvoiceRowInternal(item.desc, item.qty, item.price));
-  updateInvoiceTotal();
+  alert(id ? `No saved invoice found for ${id}. Loaded auto-saved draft instead.` : 'No Invoice No entered. Loaded auto-saved draft.');
+  loadTempInvoice();
+  document.getElementById('invoiceNo').value = ''; // Clear for draft
 }
 function clearInvoiceForm() {
   document.getElementById('invoiceNo').value = '';
@@ -1415,9 +1430,10 @@ function clearInvoiceForm() {
   updateInvoiceTotal();
   clearErrors('invoice');
 }
+
+/* Expense Functions */
 function saveTempExpense() {
   const id = document.getElementById('expenseID').value.trim();
-  if (!id) return;
   const data = getCurrentExpenseData();
   data.id = id;
   localStorage.setItem(STORAGE_KEY_TEMP_EXPENSE, JSON.stringify(data));
@@ -1508,25 +1524,24 @@ function saveExpense() {
 function loadExpense() {
   clearErrors('expense');
   const id = document.getElementById('expenseID').value.trim();
-  if (!id) {
-    document.getElementById('expenseIDError').textContent = 'Please enter an Expense ID to load';
-    document.getElementById('expenseID').classList.add('invalid');
-    return;
+  if (id) {
+    const saved = localStorage.getItem(`expense_${id}`);
+    if (saved) {
+      const data = JSON.parse(saved);
+      document.getElementById('expenseDate').value = data.date || '';
+      document.getElementById('expenseCategory').value = data.category || 'Supplies';
+      document.getElementById('expensePaidTo').value = data.paidTo || '';
+      document.getElementById('expenseNotes').value = data.notes || '';
+      const tbody = document.querySelector('#expenseTable tbody');
+      tbody.innerHTML = '';
+      (data.items || []).forEach(item => addExpenseRowInternal(item.desc, item.amt));
+      updateExpenseTotal();
+      return;
+    }
   }
-  const saved = localStorage.getItem(`expense_${id}`);
-  if (!saved) {
-    alert(`No expense found for ${id}`);
-    return;
-  }
-  const data = JSON.parse(saved);
-  document.getElementById('expenseDate').value = data.date || '';
-  document.getElementById('expenseCategory').value = data.category || 'Supplies';
-  document.getElementById('expensePaidTo').value = data.paidTo || '';
-  document.getElementById('expenseNotes').value = data.notes || '';
-  const tbody = document.querySelector('#expenseTable tbody');
-  tbody.innerHTML = '';
-  (data.items || []).forEach(item => addExpenseRowInternal(item.desc, item.amt));
-  updateExpenseTotal();
+  alert(id ? `No saved expense found for ${id}. Loaded auto-saved draft instead.` : 'No Expense ID entered. Loaded auto-saved draft.');
+  loadTempExpense();
+  document.getElementById('expenseID').value = ''; // Clear for draft
 }
 function clearExpenseForm() {
   document.getElementById('expenseID').value = '';
@@ -1653,12 +1668,15 @@ document.querySelector('#receiptTable').addEventListener('input', saveTempReceip
 document.querySelectorAll('#paycheckID, #paycheckName, #paycheckStaffID, #paycheckMonth, #paycheckYear, #paycheckDate').forEach(el => {
   el.addEventListener('input', saveTempPaycheck);
 });
+document.querySelector('#receiptTable').addEventListener('input', saveTempPaycheck);
 document.querySelectorAll('#invoiceNo, #invoiceTo, #invoiceAddress, #invoiceDate, #invoiceDue').forEach(el => {
   el.addEventListener('input', saveTempInvoice);
 });
+document.querySelector('#invoiceTable').addEventListener('input', saveTempInvoice);
 document.querySelectorAll('#expenseID, #expenseDate, #expenseCategory, #expensePaidTo, #expenseNotes').forEach(el => {
   el.addEventListener('input', saveTempExpense);
 });
+document.querySelector('#expenseTable').addEventListener('input', saveTempExpense);
 </script>
 </body>
 </html>
